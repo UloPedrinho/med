@@ -1,9 +1,11 @@
-/* * TODO [0/2] */
-/*   - [ ] add line to buffer */
-/*   - [ ] destroy buffer for free memory!! */
+/* * TODO [2/3] */
+/*   - [X] create/destroy buffer for free memory!! */
+/*   - [X] add char/string to buffer */
 /*   - [ ] edit */
 /*     save in same space redimensioning */
 /*     the buffer or something ?? */
+/*     - [ ] enter text */
+/*       - [ ] end with '.' like in ed (?) */
 /*     - [ ] list lines, page by page */
 /*     - [ ] print line to be edit */
 /*     - [ ] save line */
@@ -19,11 +21,15 @@ struct BUFFER {
   char *data;
 };
 
+/* Buffer functions. */
 int getStringLength(char []);
-
 struct BUFFER createBuffer(int);
+void destroyBuffer(struct BUFFER);
 int addCharToBuffer(struct BUFFER *, char); /* TODO: needed? */
 int addStringToBuffer(struct BUFFER *, char []);
+
+/* edit text */
+void readLine(char *);
 
 /* NOTE: debug functions */
 void printBuffer(struct BUFFER);
@@ -34,22 +40,29 @@ int main() {
   char *pointer;
   struct BUFFER b;
 
-  b = createBuffer(4);
+  char *line;
 
+  b = createBuffer(664);
   pointer = b.data;
 
-  /* printf("success: %d\n", addStringToBuffer(&b, "1234567890\n1234567890" )); */
+  readLine(line);
 
-  printf("success: %d\n", addStringToBuffer(&b, "1234"));
+  addStringToBuffer(&b, line);
 
+  readLine(line);
+
+  addStringToBuffer(&b, line);
+
+  printf("----\n");
 
   printBuffer(b);
 
-  free(b.data);
-
+  destroyBuffer(b);
 }
 
-/*  */
+/* * Buffer functions */
+
+/* Return string length */
 int getStringLength(char s[]){
   int counter;
   counter = 0;
@@ -67,7 +80,12 @@ struct BUFFER createBuffer(int size){
   return b;
 }
 
-/* Add a char to buffer */
+/* Free buffer from memory. */
+void destroyBuffer(struct BUFFER b){
+  free(b.data);
+}
+
+/* Add a char to buffer. Return 1 if success, 0 if no capacity */
 int addCharToBuffer(struct BUFFER *b, char c){
   int success;
   if(b->current_size < b->max_size) {
@@ -79,15 +97,13 @@ int addCharToBuffer(struct BUFFER *b, char c){
   }
   return success;
 }
-
-/*  */
+/* Add a string to buffer. Return 1 if success, 0 if no capacity */
 int addStringToBuffer(struct BUFFER *b, char s[]){
   int success;
   int counter;
   char *p;
 
   p = b->data;
-  /* TODO: limit? +1/-1/0 */
   if((b->max_size - b->current_size) >= getStringLength(s)){
     for (counter=0; counter<getStringLength(s); counter++) {
       *(p+b->current_size) = s[counter];
@@ -100,12 +116,35 @@ int addStringToBuffer(struct BUFFER *b, char s[]){
   return success;
 }
 
-/* void fillBuffer(struct BUFFER *b, char data[]){ */
-/*   int counter; */
-/*   char *p; */
-/*   p = b->data; */
-/*   if (b->current_size < b->max_size){ */
-/*   } */
+/* * Edit functions */
+void readLine(char *line){
+  int c;
+  c = getchar();
+  while(c!='\n'){
+    *line = c;
+    line++;
+    c = getchar();
+  }
+  *line='\n';
+}
+
+/* Loop for enter text. End with ^.\n */
+/* Return 0 if buffer overflow, if not 1 success */
+int enterText(struct BUFFER *b){
+  int success;
+  int last_was_newline;
+  success = 1;
+  last_was_newline = 0;
+
+  while(last_was_newline!=1 && success != 0) {
+    /* readLine */
+
+  }
+
+
+}
+
+/* * Debug functions */
 
 /* NOTE: debug functions */
 void printBuffer(struct BUFFER b){
