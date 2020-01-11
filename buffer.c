@@ -19,8 +19,11 @@ struct BUFFER {
   char *data;
 };
 
+int getStringLength(char []);
+
 struct BUFFER createBuffer(int);
-int addCharToBuffer(struct BUFFER *, char);
+int addCharToBuffer(struct BUFFER *, char); /* TODO: needed? */
+int addStringToBuffer(struct BUFFER *, char []);
 
 /* NOTE: debug functions */
 void printBuffer(struct BUFFER);
@@ -31,71 +34,28 @@ int main() {
   char *pointer;
   struct BUFFER b;
 
-  b = createBuffer(6);
+  b = createBuffer(4);
 
   pointer = b.data;
 
-  /* printf("ms:%d, cs:%d\n", b.max_size, b.current_size); */
+  /* printf("success: %d\n", addStringToBuffer(&b, "1234567890\n1234567890" )); */
 
-  /* printf("r:%d\n", addCharToBuffer(&b, 'a')); */
-
-  /* printf("ms:%d, cs:%d\n", b.max_size, b.current_size); */
-
-  /* printf("r:%d\n", addCharToBuffer(&b, 'n')); */
-
-  /* printf("ms:%d, cs:%d\n", b.max_size, b.current_size); */
-
-  /* printf("r:%d\n", addCharToBuffer(&b, 's')); */
-
-  /* printf("ms:%d, cs:%d\n", b.max_size, b.current_size); */
-
-  /* printf("r:%d\n", addCharToBuffer(&b, 'i')); */
-
-  /* printf("ms:%d, cs:%d\n", b.max_size, b.current_size); */
-
-  /* printf("r:%d\n", addCharToBuffer(&b, '+')); */
-
-  /* printf("ms:%d, cs:%d\n", b.max_size, b.current_size); */
-
-  /* printf("r:%d\n", addCharToBuffer(&b, '!')); */
-
-  /* printf("ms:%d, cs:%d\n", b.max_size, b.current_size); */
-
-  /* printf("r:%d\n", addCharToBuffer(&b, '@')); */
-
-  /* printf("ms:%d, cs:%d\n", b.max_size, b.current_size); */
+  printf("success: %d\n", addStringToBuffer(&b, "1234"));
 
 
-
-  /* printf("--------------\n"); */
-
-  /* printf("1:%c\n", *b.data); */
-  /* pointer++; */
-
-  /* printf("2:%c\n", *pointer); */
-
-  /* pointer++; */
-
-  /* printf("3:%c\n", *pointer); */
-
-  /* pointer++; */
-
-  /* printf("4:%c\n", *pointer); */
-
-  /* pointer++; */
-
-  /* printf("5:%c\n", *pointer); */
-
-  /* pointer++; */
-
-  /* printf("6:%c\n", *pointer); */
-
-  /* pointer++; */
-
-  /* printf("7:%c\n", *pointer); */
+  printBuffer(b);
 
   free(b.data);
 
+}
+
+/*  */
+int getStringLength(char s[]){
+  int counter;
+  counter = 0;
+  while(s[counter]!= '\0')
+    counter ++;
+  return counter;
 }
 
 /* Returns a new buffer with max size 'size. */
@@ -120,6 +80,33 @@ int addCharToBuffer(struct BUFFER *b, char c){
   return success;
 }
 
+/*  */
+int addStringToBuffer(struct BUFFER *b, char s[]){
+  int success;
+  int counter;
+  char *p;
+
+  p = b->data;
+  /* TODO: limit? +1/-1/0 */
+  if((b->max_size - b->current_size) >= getStringLength(s)){
+    for (counter=0; counter<getStringLength(s); counter++) {
+      *(p+b->current_size) = s[counter];
+      b->current_size++;
+      success = 1;
+    }
+  } else {
+    success = 0;
+  }
+  return success;
+}
+
+/* void fillBuffer(struct BUFFER *b, char data[]){ */
+/*   int counter; */
+/*   char *p; */
+/*   p = b->data; */
+/*   if (b->current_size < b->max_size){ */
+/*   } */
+
 /* NOTE: debug functions */
 void printBuffer(struct BUFFER b){
   int counter;
@@ -130,11 +117,3 @@ void printBuffer(struct BUFFER b){
     p++;
   }
 }
-
-/* void fillBuffer(struct BUFFER *b, char data[]){ */
-/*   int counter; */
-/*   char *p; */
-/*   p = b->data; */
-/*   if (b->current_size < b->max_size){ */
-    
-/*   } */
