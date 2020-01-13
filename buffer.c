@@ -1,19 +1,29 @@
-/* * TODO [2/3] */
+
+/* * TODO [2/5] */
 /*   - [X] create/destroy buffer for free memory!! */
 /*   - [X] add char/string to buffer */
+/*   - [ ] write buffer to file */
+/*   - [ ] load file to buffer */
+/*     - [ ] test if file is greater than buffer max size */
 /*   - [ ] edit */
 /*     save in same space redimensioning */
 /*     the buffer or something ?? */
 /*     - [ ] enter text */
 /*       - [ ] end with '.' like in ed (?) */
+/*         - [ ] better something more elaborated like vi? !q */
+/*         - [ ] last newline must be removed (?) */
 /*     - [ ] list lines, page by page */
 /*     - [ ] print line to be edit */
 /*     - [ ] save line */
+
+/* * BUGS [0/1] */
+/*   - [ ] reaLine() have no memory limit */
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #define BUFFER_SIZE_LIMIT 100000 /* char */
+#define LINE_SIZE 1000           /* char */
 
 struct BUFFER {
   int max_size;
@@ -29,29 +39,24 @@ int addCharToBuffer(struct BUFFER *, char); /* TODO: needed? */
 int addStringToBuffer(struct BUFFER *, char []);
 
 /* edit text */
-void readLine(char *);
+char* readLine(int);
+int enterText(struct BUFFER *);
 
 /* NOTE: debug functions */
 void printBuffer(struct BUFFER);
 void fillBuffer(struct BUFFER *);
 
+/* * main */
 int main() {
 
   char *pointer;
   struct BUFFER b;
 
-  char *line;
-
   b = createBuffer(664);
   pointer = b.data;
 
-  readLine(line);
 
-  addStringToBuffer(&b, line);
-
-  readLine(line);
-
-  addStringToBuffer(&b, line);
+  enterText(&b);
 
   printf("----\n");
 
@@ -97,6 +102,7 @@ int addCharToBuffer(struct BUFFER *b, char c){
   }
   return success;
 }
+
 /* Add a string to buffer. Return 1 if success, 0 if no capacity */
 int addStringToBuffer(struct BUFFER *b, char s[]){
   int success;
@@ -117,31 +123,52 @@ int addStringToBuffer(struct BUFFER *b, char s[]){
 }
 
 /* * Edit functions */
-void readLine(char *line){
+/*  */
+/* TODO */
+char* readLine(int size){
+  int counter;
   int c;
-  c = getchar();
+  char *l;
+  l = (char*)malloc(sizeof(char)*size);
+  counter =0;
+  c=getchar();
   while(c!='\n'){
-    *line = c;
-    line++;
-    c = getchar();
+    *(l+counter)=c;
+    counter++;
+    c=getchar();
   }
-  *line='\n';
+  *(l+counter)='\n';
+  *(l+counter+1)='\0';
+  return l;
+}
+
+/*  */
+int isEndLine(char *line){
+  int success;
+  if (*line=='.' && *(line+1)=='\n')
+    success = 1;
+  else
+    success = 0;
+  return success;
 }
 
 /* Loop for enter text. End with ^.\n */
+/* Write to buffer each line.*/
 /* Return 0 if buffer overflow, if not 1 success */
 int enterText(struct BUFFER *b){
+  char *line;
   int success;
   int last_was_newline;
   success = 1;
   last_was_newline = 0;
-
-  while(last_was_newline!=1 && success != 0) {
-    /* readLine */
-
+  while(last_was_newline!=1 && success!=0) {
+    line=readLine(LINE_SIZE);
+    last_was_newline = isEndLine(line);
+    if (last_was_newline!=1) {
+      success = addStringToBuffer(b, line);
+    }
   }
-
-
+  return success;
 }
 
 /* * Debug functions */
