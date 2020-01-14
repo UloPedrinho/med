@@ -1,0 +1,36 @@
+#+TITLE: My EDitor
+#+TODO: NEXT(n) CURRENT(c!) WAITING(w!) STARTED(s!) IMPROVE(i!) TODO(t!) | DONE(d!) ABORTED(a!)
+#+STARTUP: indent
+
+* TODO [2/7]
+** NEXT convert readed buffer to array of lines
+** WAITING write buffer to file
+- State "WAITING"    from "TODO"       [2020-01-14 Mar 22:43]
+- [ ] pass file pointer to function, better tha open&close inside ???
+- [ ] test if file exist previously and pass mode
+** WAITING load file to buffer
+- State "WAITING"    from "TODO"       [2020-01-14 Mar 22:43]
+- [ ] pass file pointer to function, better tha open&close inside ???
+- [ ] test if file is greater than buffer max size
+** TODO edit [0/5]
+save in same space redimensioning the buffer or something ??
+- [ ] enter text
+- [ ] last newline must be removed
+- [ ] print line to be edit
+- [ ] save line (what is this?)
+** TODO list lines
+- [ ] numbered
+- [ ] page by page
+  - if 'q' , exit to main menu ?
+  - or use a number type... :32L?
+    - so user can enter number to be edit
+
+** DONE create/destroy buffer for free memory!!
+** DONE add char/string to buffer
+* IMPROVE next version
+** TODO end with '.' like in vi
+- better something more elaborated like vi? !q
+* BUGS [1/1]
+- [X] reaLine() have no memory limit
+
+
