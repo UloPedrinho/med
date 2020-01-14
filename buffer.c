@@ -1,18 +1,25 @@
-
-/* * TODO [2/5] */
+/* * buffer.c */
+/* * TODO [2/7] */
 /*   - [X] create/destroy buffer for free memory!! */
 /*   - [X] add char/string to buffer */
 /*   - [ ] write buffer to file */
+/*     - [ ] pass file pointer to function, better tha open&close inside ??? */
+/*     - [ ] test if file exist previously and pass mode */
 /*   - [ ] load file to buffer */
+/*     - [ ] pass file pointer to function, better tha open&close inside ??? */
 /*     - [ ] test if file is greater than buffer max size */
 /*   - [ ] edit */
-/*     save in same space redimensioning */
-/*     the buffer or something ?? */
+/*     save in same space redimensioning the buffer or something ?? */
 /*     - [ ] enter text */
 /*       - [ ] end with '.' like in ed (?) */
 /*         - [ ] better something more elaborated like vi? !q */
 /*         - [ ] last newline must be removed (?) */
-/*     - [ ] list lines, page by page */
+/*     - [ ] list lines */
+/*       - [ ] numbered */
+/*       - [ ] page by page */
+/*         - if 'q' , exit to main menu ?  */
+/*         - or use a number type... :32L?  */
+/*           - so user can enter number to be edit */
 /*     - [ ] print line to be edit */
 /*     - [ ] save line */
 
@@ -31,6 +38,11 @@ struct BUFFER {
   char *data;
 };
 
+/* * ***** */
+/* * CODE: */
+/* * ***** */
+/* * declarations */
+
 /* Buffer functions. */
 int getStringLength(char []);
 struct BUFFER createBuffer(int);
@@ -38,9 +50,16 @@ void destroyBuffer(struct BUFFER);
 int addCharToBuffer(struct BUFFER *, char); /* TODO: needed? */
 int addStringToBuffer(struct BUFFER *, char []);
 
+/* file functions */
+int writeBufferToFile(struct BUFFER, char [], char []);
+int readFileToBuffer(struct BUFFER *, char [], char []);
+
 /* edit text */
 char* readLine(int);
 int enterText(struct BUFFER *);
+
+/* print funcionts */
+void printBufferNumbered(struct BUFFER);
 
 /* NOTE: debug functions */
 void printBuffer(struct BUFFER);
@@ -58,14 +77,23 @@ int main() {
 
   enterText(&b);
 
+  writeBufferToFile(b, "perrymason", "w");
+
+  /* readFileToBuffer(&b, "perrymason", "r"); */
+
   printf("----\n");
 
-  printBuffer(b);
+  printBufferNumbered(b);
+  /* printBuffer(b); */
 
   destroyBuffer(b);
 }
 
+
+
+/* ****************** */
 /* * Buffer functions */
+/* ****************** */
 
 /* Return string length */
 int getStringLength(char s[]){
@@ -122,9 +150,46 @@ int addStringToBuffer(struct BUFFER *b, char s[]){
   return success;
 }
 
-/* * Edit functions */
+/* **************** */
+/* * TODO File functions */
+
+
+/* TODO: return value */
+/* Return 1 if success, 0 some error */
+int writeBufferToFile(struct BUFFER buffer, char filename[], char mode[]) {
+  FILE * pointer_file;
+  int success;
+  success = 1;
+
+  pointer_file = fopen(filename, mode);
+
+  fwrite(buffer.data, sizeof(char), buffer.current_size, pointer_file);
+
+  fclose(pointer_file);
+}
+
+/* TODO: return value */
 /*  */
-/* TODO */
+int readFileToBuffer(struct BUFFER *buffer, char filename[], char mode[]){
+  FILE * pointer_file;
+  int counter;
+  int success;
+  int c;
+  success = 1; 
+  pointer_file = fopen(filename, mode);
+  counter = 0;
+  while((c = fgetc(pointer_file))!=EOF) {
+    addCharToBuffer(buffer, c);
+    counter++;
+  }
+  buffer->current_size = counter;
+  fclose(pointer_file);
+}
+
+/* * Edit functions */
+/* **************** */
+
+/*  */
 char* readLine(int size){
   int counter;
   int c;
@@ -171,8 +236,26 @@ int enterText(struct BUFFER *b){
   return success;
 }
 
-/* * Debug functions */
+/* ***************** */
+/* * print functions */
+void printBufferNumbered(struct BUFFER buffer){
+  int counter;
+  int line;
+  line = 1;
+  printf("%d: ", line);
+  line++;
+  for (counter=0; counter<buffer.current_size; counter++) {
+    if (*(buffer.data+counter) == '\n') {
+      printf("\n%d: ", line);
+      line++;
+    }
+    else
+      printf("%c", *(buffer.data+counter));
+  }
+}
 
+/* * Debug functions */
+/* ***************** */
 /* NOTE: debug functions */
 void printBuffer(struct BUFFER b){
   int counter;
@@ -183,3 +266,10 @@ void printBuffer(struct BUFFER b){
     p++;
   }
 }
+
+
+
+
+
+
+
