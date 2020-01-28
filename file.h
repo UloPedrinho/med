@@ -3,7 +3,7 @@
 
 #include "buffer.h"
 
-int writeBufferToFile(struct BUFFER, char [], char []);
-int readFileToBuffer(struct BUFFER *, char [], char []);
+int writeBufferToFile(Buffer, char [], char []);
+int readFileToBuffer(Buffer *, char [], char []);
 
 #endif

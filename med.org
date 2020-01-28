@@ -1,9 +1,51 @@
 #+TITLE: My EDitor
-#+TODO: NEXT(n) CURRENT(c!) WAITING(w!) STARTED(s!) IMPROVE(i!) TODO(t!) | DONE(d!) ABORTED(a!)
+#+TODO: NEXT(n) BUG(b) CURRENT(c!) WAITING(w!) STARTED(s!) IMPROVE(i!) TODO(t) | DONE(d!) FIXED(f!) ABORTED(a!)
 #+STARTUP: indent
 
-* TODO [2/7]
-** NEXT convert readed buffer to array of lines
+* WHERE !!
+- b.c: 
+  - [X] countBufferlines()
+  - [ ] setBufferLines()
+
+* TODO [2/8]
+** CURRENT manage buffer as lines
+:LOGBOOK:
+- State "CURRENT"    from "NEXT"       [2020-01-16 ju. 13:30]
+:END:
+*** STARTED load file to container [1/2]
+:LOGBOOK:
+- State "STARTED"    from "TODO"       [2020-01-15 Mér 23:05]
+:END:
+**** DONE load fien into buffer
+**** BUG 'struct lines line' have to be an array with defined size
+- line 72
+- possible solutions: 
+  - pass size , after calculate number of lines when load file into buffer
+  - dynamic grow 
+*** TODO create new file container
+*** WAITING destroy container [0/2]
+:LOGBOOK:
+- State "WAITING"    from "TODO"       [2020-01-16 Xov 17:47]
+:END:
+- [ ] free buffer memory
+- [ ] free lines memory
+*** DONE struct container
+:LOGBOOK:
+- State "DONE"       from "DONE"       [2020-01-15 Mér 22:39]
+:END:
+- struct:
+  - BUFFER buffer
+  - int length_lines;
+  - int max_length_line;
+  - filename
+*** DONE use array of structs
+:LOGBOOK:
+- State "DONE"       from "DONE"       [2020-01-15 Mér 22:39]
+:END:
+- struct:
+  - start : position in BUFFER first char
+  - end: newline
+
 ** WAITING write buffer to file
 - State "WAITING"    from "TODO"       [2020-01-14 Mar 22:43]
 - [ ] pass file pointer to function, better tha open&close inside ???
@@ -12,6 +54,7 @@
 - State "WAITING"    from "TODO"       [2020-01-14 Mar 22:43]
 - [ ] pass file pointer to function, better tha open&close inside ???
 - [ ] test if file is greater than buffer max size
+** NEXT modify buffer when line grow-shrink
 ** TODO edit [0/5]
 save in same space redimensioning the buffer or something ??
 - [ ] enter text
@@ -30,7 +73,8 @@ save in same space redimensioning the buffer or something ??
 * IMPROVE next version
 ** TODO end with '.' like in vi
 - better something more elaborated like vi? !q
+** TODO allow buffer grow dynamically
 * BUGS [1/1]
 - [X] reaLine() have no memory limit
-
-
+* IDEA [0/1]
+- [ ] link list for lines, so when edit .. 
