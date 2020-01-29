@@ -2,8 +2,8 @@
 #define _BUFFER_H
 
 typedef struct {
-  int max_size;
-  int current_size;
+  long max_size;
+  long current_size;
   char *data;
 } Buffer;
 
