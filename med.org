@@ -7,8 +7,12 @@
 :LOGBOOK:
 - State "CURRENT"    from "NEXT"       [2020-01-16 ju. 13:30]
 :END:
-*** NEXT create new file container function
-*** NEXT create file container function
+*** DONE create new file container function
+:LOGBOOK:
+- State "DONE"       from "STARTED"    [2020-01-31 Ven 00:17]
+- State "STARTED"    from "NEXT"       [2020-01-30 Xov 23:05]
+:END:
+*** NEXT (?) create file container function
 *** TODO destroy container [0/2]
 - [ ] free buffer memory
 - [ ] free lines memory
