@@ -5,7 +5,6 @@
 #include "buffer.h"
 
 int writeBufferToFile(Buffer, char [], char []);
-int readFileToBuffer(Buffer *, char [], char []);
 void loadFileInBuffer(Buffer *buffer, FILE *file);
 
 #endif

@@ -18,25 +18,6 @@ int writeBufferToFile(Buffer buffer, char filename[], char mode[]) {
   fclose(pointer_file);
 }
 
-
-/* TODO: to be deleted */
-int readFileToBuffer(Buffer *buffer, char filename[], char mode[]){
-  FILE * pointer_file;
-  long counter;
-  int success;
-  int c;
-  success = 1;
-  pointer_file = fopen(filename, mode);
-  counter = 0;
-  while((c = fgetc(pointer_file))!=EOF) {
-    addCharToBuffer(buffer, c);
-    counter++;
-  }
-  buffer->current_size = counter;
-  fclose(pointer_file);
-  return counter;
-}
-
 /* TODO: return if file_size greater dan buffer max_size */
 void loadFileInBuffer(Buffer *buffer, FILE *file){
   long file_size;
