@@ -1,81 +1,31 @@
-#include "../buffer.h"
+#include "buffer.h"
+#include "file.h"
+#include "container.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-void loadBuffer(Buffer *buffer);
-void loadFileInBuffer(Buffer *buffer, FILE *file);
-long countBufferLines(Buffer buffer);
-
-typedef struct {
-  int start;
-  int end;
-} Line;
-
-typedef struct {
-  Buffer buffer;
-  Line **lines;
-  int length_lines;
-  int max_length_line;
-  char *filename;
-} Container;
 
 
 int main(int argc, char *argv[])
 {
   Container container;
   FILE *fp;
-  long lines;
+  long counter;
 
-  fp=fopen("b.c", "r");
+  newContainerFromFile(&container, "deleteme");
 
-  loadFileInBuffer(&container.buffer, fp);
+  for (counter=0; counter<container.number_of_lines; counter++) {
+    printf("l%03ld - start:%ld , end:%ld\n", counter, container.lines[counter].start, container.lines[counter].end);
+  }
 
-  lines = countBufferLines(container.buffer);
-
-  printf("max_size: %d\n", container.buffer.max_size);
-  printf("current_size: %d\n", container.buffer.current_size);
+  printf("number of lines: %ld\n", container.number_of_lines);
+  printf("max_size: %ld\n", container.buffer.max_size);
+  printf("current_size: %ld\n", container.buffer.current_size);
   printf("data: %s\n", container.buffer.data);
 
-  printf("Lines: %ld", lines);
+  /* printf("Lines: %ld", lines); */
 
-  fclose(fp);
+
   return 0;
 }
 
-void loadFileInBuffer(Buffer *buffer, FILE *file){
-  long file_size;
-  char *text;
-
-  /* get file size */
-  fseek(file, 1, SEEK_END);
-  file_size = ftell(file);
-  fseek(file, 1, SEEK_SET);
-
-  /* size memory */
-  buffer->data = (char*)malloc(sizeof(char)*file_size);
-  text = (char*)malloc(sizeof(char)*file_size);
-
-  /* read file */
-  fread(text, 1, file_size, file);
-
-  /* set buffer data */
-  buffer->current_size = file_size;
-  memcpy(buffer->data, text, file_size);
-}
-
-long countBufferLines(Buffer buffer){
-  int counter;
-  long lines;
-  char *pointer;
-
-  lines = 0;
-  pointer = buffer.data;
-  for (counter=0; counter<buffer.current_size; counter++) {
-    if(*pointer == '\n'){
-      lines++;
-    }
-    pointer++;
-  }
-  return lines;
-}
