@@ -45,7 +45,7 @@ void loadFileInBuffer(Buffer *buffer, FILE *file){
   /* get file size */
   fseek(file, 1, SEEK_END);
   file_size = ftell(file);
-  fseek(file, 1, SEEK_SET);
+  fseek(file, 0, SEEK_SET);
 
   /* size memory */
   buffer->data = (char*)malloc(sizeof(char)*file_size);
