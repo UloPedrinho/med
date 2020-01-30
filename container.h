@@ -12,12 +12,11 @@ typedef struct {
   Buffer buffer;
   Line *lines;
   long number_of_lines;
-  int length_lines;
-  int max_length_line;
   char *filename;
 } Container;
 
 long countBufferLines(Buffer buffer);
 void setBufferLines(Container *container, long lines);
+int newContainerFromFile(Container *container, char filename[]);
 
 #endif
