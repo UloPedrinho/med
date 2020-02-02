@@ -1,8 +1,8 @@
 #+TITLE: My EDitor
-#+TODO: NEXT(n) BUG(b) CURRENT(c!) WAITING(w!) STARTED(s!) IMPROVE(i!) TODO(t) | DONE(d!) FIXED(f!) ABORTED(a!)
+#+TODO: CURRENT(c!) NEXT(n) BUG(b) WAITING(w!) STARTED(s!) IMPROVE(i!) TODO(t) | DONE(d!) FIXED(f!) ABORTED(a!)
 #+STARTUP: indent
 
-* TODO [2/8]
+* TODO [3/9]
 ** CURRENT manage buffer as lines
 :LOGBOOK:
 - State "CURRENT"    from "NEXT"       [2020-01-16 ju. 13:30]
@@ -40,15 +40,15 @@
   - start : position in BUFFER first char
   - end: newline
 
+** NEXT modify buffer when line grow-shrink
+** NEXT manage cotainers
+*** TODO create cointainers array(?) | pointer(?)
+*** TODO add container
+*** TODO delete container
 ** WAITING write buffer to file
 - State "WAITING"    from "TODO"       [2020-01-14 Mar 22:43]
 - [ ] pass file pointer to function, better tha open&close inside ???
 - [ ] test if file exist previously and pass mode
-** WAITING load file to buffer
-- State "WAITING"    from "TODO"       [2020-01-14 Mar 22:43]
-- [ ] pass file pointer to function, better tha open&close inside ???
-- [ ] test if file is greater than buffer max size
-** NEXT modify buffer when line grow-shrink
 ** TODO edit [0/5]
 save in same space redimensioning the buffer or something ??
 - [ ] enter text
@@ -62,6 +62,7 @@ save in same space redimensioning the buffer or something ??
   - or use a number type... :32L?
     - so user can enter number to be edit
 
+** DONE load file to buffer
 ** DONE create/destroy buffer for free memory!!
 ** DONE add char/string to buffer
 * IMPROVE next version
