@@ -64,6 +64,7 @@ int newContainerFromFile(Container *container, char filename[]) {
   fp = fopen(filename, "r");
   if (fp != NULL) {
     container->filename = (char *)malloc(sizeof(char) * strlen(filename));
+    container->filename = filename;
     loadFileInBuffer(&container->buffer, fp);
     setBufferLines(container, countBufferLines(container->buffer));
     success = 1;
