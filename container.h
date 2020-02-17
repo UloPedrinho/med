@@ -17,6 +17,7 @@ typedef struct {
 
 long countBufferLines(Buffer buffer);
 void setBufferLines(Container *container, long lines);
-int newContainerFromFile(Container *container, char filename[]);
+int loadContainerFromFile(Container *container, char filename[]);
+int addContainer(Container *containers, int number_of_containers);
 
 #endif

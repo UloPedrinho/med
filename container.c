@@ -58,7 +58,7 @@ void setBufferLines(Container *container, long lines) {
   container->number_of_lines = line_number;
 }
 
-int newContainerFromFile(Container *container, char filename[]) {
+int loadContainerFromFile(Container *container, char filename[]) {
   FILE *fp;
   int success;
   fp = fopen(filename, "r");
@@ -74,3 +74,19 @@ int newContainerFromFile(Container *container, char filename[]) {
   }
   return success;
 }
+
+/* Allocate memory for new contaire next to last. */
+/* Return container position in array Containers */
+int addContainer(Container *containers, int number_of_containers){
+  HERE!!!!!!!!!!!
+    number_of_containers++;
+    containers = (Container *)realloc(containers, sizeof(Container)*number_of_containers);
+
+  return number_of_containers;
+}
+
+
+
+/* void destroyContainer(Container *container){ */
+
+/* } */

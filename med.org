@@ -12,8 +12,11 @@
 - State "DONE"       from "STARTED"    [2020-01-31 Ven 00:17]
 - State "STARTED"    from "NEXT"       [2020-01-30 Xov 23:05]
 :END:
-*** NEXT (?) create file container function
-*** TODO destroy container [0/2]
+*** WAITING destroy container [0/2]
+:LOGBOOK:
+- State "WAITING"    from "CURRENT"    [2020-02-03 Lun 17:35]
+- State "CURRENT"    from "TODO"       [2020-02-03 Lun 17:32]
+:END:
 - [ ] free buffer memory
 - [ ] free lines memory
 *** DONE load file to container [2/2]
@@ -41,8 +44,15 @@
   - end: newline
 
 ** NEXT modify buffer when line grow-shrink
-** NEXT manage cotainers
-*** TODO create cointainers array(?) | pointer(?)
+** CURRENT manage cotainers
+:LOGBOOK:
+- State "CURRENT"    from "NEXT"       [2020-02-03 Lun 17:35]
+:END:
+*** CURRENT create cointainers array(?) | pointer(?)
+:LOGBOOK:
+- State "CURRENT"    from "TODO"       [2020-02-03 Lun 17:35]
+:END:
+[[file:container.c::HERE!!!!!!!!!!!]]
 *** TODO add container
 *** TODO delete container
 ** WAITING write buffer to file
